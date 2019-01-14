@@ -1,0 +1,136 @@
+#Documents de référence
+#
+# "Recommandations pour un usage securise d'(Open)SSH"
+# https://www.ssi.gouv.fr/nt-ssh/
+#
+# "Recommandations de securite relatives a un systeme GNU/Linux"
+# https://www.ssi.gouv.fr/reco-securite-systeme-linux/
+#
+# "Recommandations de sécurite pour la mise en oeuvre d'un systeme de journalisation"
+# https://www.ssi.gouv.fr/journalisation/
+
+# Restriction a SSHv2
+#
+# "Recommandations pour un usage securise d'(Open)SSH" R1
+Protocol 2
+
+# Restriction d'ecoute
+#
+# "Recommandations de securite relatives a un systeme GNU/Linux" R1
+# "Recommandations pour un usage securise d'(Open)SSH" R26
+#ListenAddress <%= @sshd_ip_listen %>
+
+# HostKeys for protocol version 2
+HostKey /etc/ssh/ssh_host_rsa_key
+HostKey /etc/ssh/ssh_host_ecdsa_key
+# HosstKey /etc/ssh/ssh_host_ed25519_key
+
+# Verification des droits DAC avant login
+#
+# "Recommandations pour un usage securise d'(Open)SSH"
+StrictModes yes
+
+# Algorithmes d'authentification
+# Non supporte par OpenSSH v6.7
+# Les algorithmes autorises sont définis par la liste "HostKey"
+#HostKeyAlgorithms ssh-ed25519,ssh-rsa
+
+# Algorithmes de forward secrecy
+#
+# Clients compatibles : openSSH5.7+ et putty 0.67+
+KexAlgorithms ecdh-sha2-nistp521,ecdh-sha2-nistp384,ecdh-sha2-nistp256
+
+# Algorithmes de chiffrement
+#
+# "Recommandations pour un usage securise d'(Open)SSH" R15
+Ciphers aes256-ctr,aes192-ctr,aes128-ctr
+
+# Algorithmes de signature
+#
+# "Recommandations pour un usage securise d'(Open)SSH" R15
+MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com
+
+# Gestion des processus fils
+#
+# "Recommandations pour un usage securise d'(Open)SSH" 4.2.2
+UsePrivilegeSeparation sandbox
+
+# Gestion de l'authentification
+#
+# "Recommandations pour un usage securise d'(Open)SSH" 4.3.1
+MaxAuthTries 2		# 2 tentatives max
+LoginGraceTime 30	# Duree max d'une tentative d'authentification
+
+# Root inaccessible
+#
+# "Recommandations pour un usage securise d'(Open)SSH" R21
+PermitRootLogin no
+
+# Affichage de la derniere connexion
+#
+# "Recommandations pour un usage securise d'(Open)SSH" R21
+PrintLastLog yes
+
+# Droits d'acces
+#
+# "Recommandations pour un usage securise d'(Open)SSH" R22
+#
+# Sprint 2
+#AllowUsers user@192.168.72.0/24
+AllowGroups sudo
+
+# Interdiction de modifier les variables locales
+#
+# "Recommandations pour un usage securise d'(Open)SSH" R23
+PermitUserEnvironment no
+
+# Forwarding interdit
+#
+# "Recommandations pour un usage securise d'(Open)SSH" R27
+AllowTcpForwarding no
+AllowStreamLocalForwarding no
+GatewayPorts no
+PermitTunnel no
+
+# Interdiction de la redirection de X11
+#
+# "Recommandations pour un usage securise d'(Open)SSH" R28
+X11Forwarding no
+
+# Journalisation
+#
+# "Recommandations de securite relatives a un systeme GNU/Linux" R7
+# "Recommandations de sécurite pour la mise en oeuvre d'un systeme de journalisation" R1
+SyslogFacility AUTH
+LogLevel INFO
+
+# Autorisation de l'authentification par cle asymetrique
+PubkeyAuthentication yes
+
+# Don't read the user's ~/.rhosts and ~/.shosts files
+IgnoreRhosts yes
+RhostsRSAAuthentication no
+HostbasedAuthentication no
+
+# Interdiction des mdp vides
+#
+# "Recommandations pour un usage securise d'(Open)SSH" R17
+PermitEmptyPasswords no
+
+# Interdire d'authentification par mdp
+PasswordAuthentication no
+ChallengeResponseAuthentication no
+AuthenticationMethods publickey
+#UsePAM yes
+
+# Droit de connexion au groupe ssh-users
+#
+# "Recommandations pour un usage securise d'(Open)SSH" R22
+AllowGroups ssh-users
+
+# Protection de authorized_keys
+#
+# Sprint 2
+# AuthorizedKeysFile /etc/ssh/AuthorizedKeys/%u/authorized_keys
+
+Subsystem sftp /usr/lib/openssh/sftp-server

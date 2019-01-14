@@ -1,0 +1,67 @@
+#
+# This file MUST be edited with the 'visudo' command as root.
+#
+# Please consider adding local content in /etc/sudoers.d/ instead of
+# directly modifying this file.
+#
+# See the man page for details on how to write a sudoers file.
+#
+
+# Documents de référence
+#
+# "Recommandations de securite relatives a un systeme GNU/Linux"
+# https://www.ssi.gouv.fr/reco-securite-systeme-linux/
+#
+# "Recommandations de sécurite pour la mise en oeuvre d'un systeme de journalisation"
+# https://www.ssi.gouv.fr/journalisation/
+
+
+# Directives de configuration sudo
+#
+# "Recommandations de securite relatives a un systeme GNU/Linux" R58
+
+# Appliquer le tag NOEXEC par defaut sur les commandes ;
+Defaults noexec
+
+# Imposer à l’utilisateur d’avoir un tty de login ;
+Defaults requiretty
+
+# Utiliser un pseudo-tty lorsqu’une commande est exécutée ;
+Defaults use_pty
+
+# Forcer umask à un masque plus restrictif ;
+Defaults umask=0027
+
+# Ignorer le ’.’ dans $PATH ;
+Defaults ignore_dot
+
+# Réinitialiser les variables d’environnement ;
+Defaults env_reset
+
+# Allouer 1 minute pour entrer son mot de passe.
+Defaults passwd_timeout=1
+
+# Envoie un mail à root lors d'un echec d'authentification ;
+Defaults	mail_badpass
+
+Defaults	secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"
+
+# Host alias specification
+
+# User alias specification
+
+# Cmnd alias specification
+
+# User privilege specification
+root	ALL=(ALL:ALL) ALL
+
+# Members of the admin group may gain root privileges
+%sudoexec ALL=(ALL) ALL
+
+
+# Allow members of group sudo to execute any command
+# %sudo	ALL=(ALL:ALL) NOPASSWD: ALL
+
+# See sudoers(5) for more information on "#include" directives:
+
+#includedir /etc/sudoers.d
