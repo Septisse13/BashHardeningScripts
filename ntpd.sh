@@ -9,6 +9,7 @@ set_ntp_conf()
     # Création de la prison
     rootdir=/var/chroot/ntp
     mkdir -p ${rootdir}/{etc,var/lib/ntp,var/log}
+    chmod -R 644 ${rootdir}/etc/{etc,var/lib/ntp,var/log}
 
     # Création du fichier de configuration
     rm -f /etc/ntp.conf
