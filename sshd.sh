@@ -35,6 +35,11 @@ set_sshd_systemd()
     fi
 }
 
+set_sshd_group()
+{
+    groupadd ssh-users
+}
+
 set_firewall_rules()
 {
     echo "-N IN_SSH_SERVER" >> in-rules.v4
@@ -52,4 +57,5 @@ set_firewall_rules()
 #remove_server_keys
 set_sshd_config
 set_sshd_systemd
+set_sshd_group
 set_firewall_rules

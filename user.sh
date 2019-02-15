@@ -40,7 +40,8 @@ set_sudo_group()
 
 set_default_users()
 {
-    usermod -a -G ${SUDO_GROUP} $ADMIN_USER
+    usermod -a -G ${SUDO_GROUP} ${ADMIN_USER}
+    usermod -a -G ssh-users ${ADMIN_USER}
 }
 
 # Valeur de umask
